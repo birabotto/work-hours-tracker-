@@ -1,6 +1,43 @@
+import { useEffect, useState } from "react";
+import WorkEntryForm from "../components/WorkEntryForm";
+import WorkEntryList, { type WorkEntry } from "../components/WorkEntryList";
 import { supabase } from "../lib/supabase";
 
 export default function Dashboard() {
+  const [entries, setEntries] = useState<WorkEntry[]>([]);
+
+  async function loadEntries() {
+    const { data, error } = await supabase
+      .from("work_entries")
+      .select("id, work_date, start_time, end_time")
+      .order("work_date", { ascending: true });
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    setEntries(data || []);
+  }
+
+  useEffect(() => {
+    async function fetchEntries() {
+      const { data, error } = await supabase
+        .from("work_entries")
+        .select("id, work_date, start_time, end_time")
+        .order("work_date", { ascending: true });
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      setEntries(data || []);
+    }
+
+    fetchEntries();
+  }, []);
+
   async function handleLogout() {
     await supabase.auth.signOut();
     window.location.href = "/";
@@ -8,7 +45,7 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-slate-100 p-6">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-5xl space-y-6">
         <header className="flex items-center justify-between rounded-2xl bg-white p-6 shadow">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">
@@ -24,6 +61,9 @@ export default function Dashboard() {
             Logout
           </button>
         </header>
+
+        <WorkEntryForm onEntryCreated={loadEntries} />
+        <WorkEntryList entries={entries} />
       </div>
     </main>
   );
