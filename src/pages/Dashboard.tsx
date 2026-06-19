@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import WorkEntryForm from "../components/WorkEntryForm";
 import WorkEntryList, { type WorkEntry } from "../components/WorkEntryList";
 import { supabase } from "../lib/supabase";
+import SmsPreview from "../components/SmsPreview";
 
 export default function Dashboard() {
   const [entries, setEntries] = useState<WorkEntry[]>([]);
@@ -64,6 +65,7 @@ export default function Dashboard() {
 
         <WorkEntryForm onEntryCreated={loadEntries} />
         <WorkEntryList entries={entries} />
+        <SmsPreview entries={entries} />
       </div>
     </main>
   );
