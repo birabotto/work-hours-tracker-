@@ -6,11 +6,19 @@ import SmsPreview from "../components/SmsPreview";
 
 export default function Dashboard() {
   const [entries, setEntries] = useState<WorkEntry[]>([]);
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toISOString().slice(0, 7),
+  );
 
   async function loadEntries() {
+    const startDate = `${selectedMonth}-01`;
+    const endDate = `${selectedMonth}-31`;
+
     const { data, error } = await supabase
       .from("work_entries")
       .select("id, work_date, start_time, end_time")
+      .gte("work_date", startDate)
+      .lte("work_date", endDate)
       .order("work_date", { ascending: true });
 
     if (error) {
@@ -22,22 +30,8 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    async function fetchEntries() {
-      const { data, error } = await supabase
-        .from("work_entries")
-        .select("id, work_date, start_time, end_time")
-        .order("work_date", { ascending: true });
-
-      if (error) {
-        alert(error.message);
-        return;
-      }
-
-      setEntries(data || []);
-    }
-
-    fetchEntries();
-  }, []);
+    loadEntries();
+  }, [selectedMonth]);
 
   async function handleLogout() {
     await supabase.auth.signOut();
@@ -79,7 +73,18 @@ export default function Dashboard() {
             Logout
           </button>
         </header>
+        <section className="rounded-2xl bg-white p-6 shadow">
+          <label className="block text-sm font-semibold text-slate-700">
+            Select month
+          </label>
 
+          <input
+            type="month"
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+          />
+        </section>
         <WorkEntryForm onEntryCreated={loadEntries} />
         <WorkEntryList entries={entries} onDeleteEntry={handleDeleteEntry} />
         <SmsPreview entries={entries} />
