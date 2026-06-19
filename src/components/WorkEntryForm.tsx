@@ -13,15 +13,15 @@ export default function WorkEntryForm({ onEntryCreated }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const { data } = await supabase.auth.getUser();
+    const { data: userData, error: userError } = await supabase.auth.getUser();
 
-    if (!data.user) {
+    if (userError || !userData.user) {
       alert("You must be logged in.");
       return;
     }
 
     const { error } = await supabase.from("work_entries").insert({
-      user_id: data.user.id,
+      user_id: userData.user.id,
       work_date: workDate,
       start_time: startTime,
       end_time: endTime,

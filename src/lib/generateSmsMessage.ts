@@ -21,5 +21,5 @@ ${lines.join("\n")}
 Total hours worked: ${totalHours}h
 
 Thank you,
-Tibirica`;
+Fran`;
 }
