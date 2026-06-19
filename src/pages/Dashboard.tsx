@@ -44,6 +44,23 @@ export default function Dashboard() {
     window.location.href = "/";
   }
 
+  async function handleDeleteEntry(id: string) {
+    const confirmDelete = confirm(
+      "Are you sure you want to delete this entry?",
+    );
+
+    if (!confirmDelete) return;
+
+    const { error } = await supabase.from("work_entries").delete().eq("id", id);
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    loadEntries();
+  }
+
   return (
     <main className="min-h-screen bg-slate-100 p-6">
       <div className="mx-auto max-w-5xl space-y-6">
@@ -64,7 +81,7 @@ export default function Dashboard() {
         </header>
 
         <WorkEntryForm onEntryCreated={loadEntries} />
-        <WorkEntryList entries={entries} />
+        <WorkEntryList entries={entries} onDeleteEntry={handleDeleteEntry} />
         <SmsPreview entries={entries} />
       </div>
     </main>
