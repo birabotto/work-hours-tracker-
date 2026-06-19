@@ -1,73 +1,162 @@
-# React + TypeScript + Vite
+# Work Hours Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern full-stack application built with React, TypeScript, Tailwind CSS, and Supabase that allows users to track work hours, calculate monthly totals, and generate professional SMS-ready summaries.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Secure email/password authentication with Supabase
+- Work hours tracking by date
+- Monthly hours calculation
+- Filter entries by month
+- Delete incorrect entries
+- SMS summary generation
+- Protected user data using Row Level Security (RLS)
+- Unit testing with Vitest
+- Continuous Integration with GitHub Actions
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Frontend
 
-## Expanding the ESLint configuration
+- React
+- TypeScript
+- Tailwind CSS
+- React Router
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Backend
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Supabase
+- PostgreSQL
+- Supabase Auth
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Testing
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Vitest
+- Testing Library
+
+### DevOps
+
+- GitHub Actions
+- Netlify (deployment)
+
+---
+
+## Screenshots
+
+### Login
+
+Secure authentication using Supabase Auth.
+
+### Dashboard
+
+Track daily work hours and review monthly totals.
+
+### SMS Generator
+
+Generate a formatted monthly summary ready to send via SMS.
+
+---
+
+## Project Structure
+
+```txt
+src/
+├── components/
+│   ├── WorkEntryForm.tsx
+│   ├── WorkEntryList.tsx
+│   ├── SmsPreview.tsx
+│
+├── pages/
+│   ├── Login.tsx
+│   └── Dashboard.tsx
+│
+├── lib/
+│   ├── supabase.ts
+│   ├── calculateHours.ts
+│   └── generateSmsMessage.ts
+│
+├── tests/
+│   ├── calculateHours.test.ts
+│   └── generateSmsMessage.test.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Installation
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/work-hours-tracker.git
 ```
+
+Navigate to the project:
+
+```bash
+cd work-hours-tracker
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create a `.env` file:
+
+```env
+VITE_SUPABASE_URL=your_project_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+---
+
+## Running Tests
+
+```bash
+npm run test:run
+```
+
+---
+
+## CI/CD
+
+GitHub Actions automatically:
+
+- Installs dependencies
+- Runs tests
+- Builds the application
+
+Every push to the `main` branch triggers the workflow.
+
+---
+
+## Future Improvements
+
+- Edit work entries
+- Dashboard statistics
+- Charts and analytics
+- Export to PDF
+- Export to Excel
+- SMS integration with Twilio
+- Mobile-friendly PWA version
+
+---
+
+## Author
+
+**Tibirica Botto Guimaraes Neto**
+
+Toronto, Ontario, Canada
+
+Software Engineering Technician | React Developer | Full Stack Developer
+
+GitHub: https://github.com/yourusername
+
+LinkedIn: https://linkedin.com/in/yourprofile
